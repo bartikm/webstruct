@@ -1,0 +1,39 @@
+name: Sanity CMS Deployment to home.pl
+
+# Bot reaguje tylko wtedy, gdy Sanity stuknie GitHub przez specjalny Webhook
+on:
+  repository_dispatch:
+    types: [sanity-publish]
+
+jobs:
+  web-deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobieranie najnowszego kodu z repozytorium
+        uses: actions/checkout@v4
+
+      - name: Instalacja Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalacja paczek
+        run: npm ci
+
+      - name: Budowanie Next.js (Static Export)
+        # Przekazanie kluczy SANITY ze skonfigurowanych Secrets
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+        run: npm run build
+
+      - name: Kopiowanie do home.pl przez FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Kopiujemy zawartość samego folderu out
+          local-dir: ./out/
+          server-dir: ./public_html/
