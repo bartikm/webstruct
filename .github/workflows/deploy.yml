@@ -16,7 +16,7 @@ jobs:
       - name: Instalacja Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Instalacja paczek
         run: npm ci
@@ -36,4 +36,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           # Kopiujemy zawartość samego folderu out
           local-dir: ./out/
-          server-dir: ./public_html/
+          server-dir: ./

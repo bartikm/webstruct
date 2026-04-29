@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Wymuszenie HTTPS, jeśli używane jest proxy (np. home.pl)
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Dostęp do folderów _next
+  RewriteRule ^_next/(.*)$ - [L]
+
+  # Obsługa SPA (fallback na index.html)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ /index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Zabezpieczenia i CORS (opcjonalnie)
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>

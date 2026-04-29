@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #0a0a0b;
+  --foreground: #ffffff;
+  --primary: #6366f1;
+  --primary-foreground: #ffffff;
+  --muted: #121214;
+  --muted-foreground: #a1a1aa;
+  --border: #1e1e20;
+  --accent-cyan: #818cf8;
+  --accent-purple: #4f46e5;
+}
+
+.light {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --accent-cyan: #6366f1;
+  --accent-purple: #4338ca;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply antialiased font-sans overflow-x-hidden;
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+  }
+  
+  section {
+    scroll-margin-top: 5rem;
+  }
+
+  h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; font-weight: 900; letter-spacing: -0.05em; text-transform: uppercase; }
+  h2 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; font-weight: 800; letter-spacing: -0.03em; }
+  h3 { font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+  p { font-size: clamp(1.125rem, 1.5vw, 1.25rem); line-height: 1.6; font-weight: 400; }
+}
+
+@layer utilities {
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    grid-auto-rows: minmax(200px, auto);
+    grid-auto-flow: dense;
+  }
+
+  .bento-item {
+    @apply bg-muted/40 border border-border/50 rounded-[2.5rem] p-6 sm:p-10 overflow-hidden relative shadow-2xl hover:bg-muted/60 transition-all duration-500 backdrop-blur-md;
+  }
+
+  .cyber-gradient {
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--primary) 50%, var(--accent-purple) 100%);
+  }
+
+  .cyber-text-gradient {
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--primary) 50%, var(--accent-purple) 100%);
+    @apply bg-clip-text text-transparent;
+  }
+}
+

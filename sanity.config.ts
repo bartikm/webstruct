@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'WebStruct Portfolio',
 
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string || 'twoj-kod',
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID as string || 'm3bkp7ob',
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET as string || 'production',
 
   basePath: '/admin',
